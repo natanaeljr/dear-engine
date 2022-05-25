@@ -1,0 +1,24 @@
+[submodule "external/spdlog"]
+	path = external/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "external/glfw"]
+	path = external/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "external/glbinding"]
+	path = external/glbinding
+	url = https://github.com/cginternals/glbinding.git
+[submodule "external/glm"]
+	path = external/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "external/stb"]
+	path = external/stb
+	url = git@github.com:natanaeljr/stb-cmake-package.git
+[submodule "external/gsl"]
+	path = external/gsl
+	url = https://github.com/microsoft/GSL.git
+[submodule "external/drlibs"]
+	path = external/drlibs
+	url = https://github.com/natanaeljr/drlibs-cmake-package.git
+[submodule "external/openal"]
+	path = external/openal
+	url = https://github.com/kcat/openal-soft.git
