@@ -1954,7 +1954,7 @@ int create_window(GLFWwindow*& window)
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  window = glfwCreateWindow(kWidth, kHeight, "Spaceship", nullptr, nullptr);
+  window = glfwCreateWindow(kWidth, kHeight, "inmath", nullptr, nullptr);
   if (window == nullptr) {
     CRITICAL("Failed to create GLFW window");
     glfwTerminate();
