@@ -61,6 +61,19 @@ find_package(drlibs 0.10.0 EXACT REQUIRED)
 add_executable(inmath)
 target_sources(inmath PRIVATE
     src/main.cpp
+    src/shaders.cpp
+    src/renderer.cpp
+    src/camera.cpp
+    src/fonts.cpp
+    src/api/file.cpp
+    src/api/text.cpp
+    src/api/sprite.cpp
+    src/api/gl_font.cpp
+    src/api/al_audio.cpp
+    src/api/collision.cpp
+    src/api/gl_shader.cpp
+    src/api/gl_object.cpp
+    src/api/gl_texture.cpp
 )
 target_link_libraries(inmath PRIVATE
     glm::glm
