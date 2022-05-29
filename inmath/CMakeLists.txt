@@ -42,7 +42,7 @@ find_package(OpenAL REQUIRED CONFIG NO_SYSTEM_ENVIRONMENT_PATH)
 # SPDLog for fast C++ logging library
 find_package(spdlog 1.10.0 EXACT REQUIRED)
 # GLFW for desktop windowing and input
-find_package(glfw3 3.3.7 EXACT REQUIRED)
+find_package(glfw3 3.4.0 EXACT REQUIRED)
 # GLBinding for C++ binding of the OpenGL API
 find_package(glbinding REQUIRED)
 # GLM for opengl mathematics library
@@ -65,15 +65,15 @@ target_sources(inmath PRIVATE
     src/renderer.cpp
     src/camera.cpp
     src/fonts.cpp
-    src/api/file.cpp
-    src/api/text.cpp
-    src/api/sprite.cpp
-    src/api/gl_font.cpp
-    src/api/al_audio.cpp
-    src/api/collision.cpp
-    src/api/gl_shader.cpp
-    src/api/gl_object.cpp
-    src/api/gl_texture.cpp
+    src/file.cpp
+    src/text.cpp
+    src/sprite.cpp
+    src/gl_font.cpp
+    src/al_audio.cpp
+    src/collision.cpp
+    src/gl_shader.cpp
+    src/gl_object.cpp
+    src/gl_texture.cpp
 )
 target_link_libraries(inmath PRIVATE
     glm::glm

@@ -1,6 +1,6 @@
 #include "./fonts.hpp"
 
-#include "./api/log.hpp"
+#include "./log.hpp"
 
 /// Loads all fonts used by the game
 Fonts load_fonts()

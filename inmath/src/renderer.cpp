@@ -4,10 +4,10 @@
 using namespace gl;
 #include <glm/gtc/type_ptr.hpp>
 
-#include "./api/sprite.hpp"
-#include "./api/gl_object.hpp"
-#include "./api/gl_shader.hpp"
-#include "./api/gl_texture.hpp"
+#include "./sprite.hpp"
+#include "./gl_object.hpp"
+#include "./gl_shader.hpp"
+#include "./gl_texture.hpp"
 
 /// Prepare to render
 void begin_render()

@@ -28,14 +28,14 @@ using namespace gl;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/compatibility.hpp>
 
-#include "./api/log.hpp"
-#include "./api/file.hpp"
-#include "./api/colors.hpp"
-#include "./api/unique_num.hpp"
-#include "./api/gl_object.hpp"
-#include "./api/collision.hpp"
-#include "./api/sprite.hpp"
-#include "./api/text.hpp"
+#include "./log.hpp"
+#include "./file.hpp"
+#include "./colors.hpp"
+#include "./unique_num.hpp"
+#include "./gl_object.hpp"
+#include "./collision.hpp"
+#include "./sprite.hpp"
+#include "./text.hpp"
 
 #include "./fonts.hpp"
 #include "./camera.hpp"
