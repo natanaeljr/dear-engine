@@ -36,11 +36,13 @@ using namespace gl;
 #include "./collision.hpp"
 #include "./sprite.hpp"
 #include "./text.hpp"
-
 #include "./fonts.hpp"
+#include "./cursor.hpp"
 #include "./camera.hpp"
 #include "./audios.hpp"
+#include "./window.hpp"
 #include "./shaders.hpp"
+#include "./viewport.hpp"
 #include "./textures.hpp"
 #include "./renderer.hpp"
 #include "./components.hpp"
@@ -50,8 +52,8 @@ using namespace std::string_literals;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Forward-declarations
 
-static constexpr size_t kWidth = 1600;
-static constexpr size_t kHeight = 900;
+static constexpr size_t kWidth = 1280;
+static constexpr size_t kHeight = 720;
 static constexpr float kAspectRatio = (float)kWidth / (float)kHeight;
 static constexpr float kAspectRatioInverse = (float)kHeight / (float)kWidth;
 
@@ -134,11 +136,9 @@ struct Game {
   bool paused;
   bool vsync;
   bool hover;
-  glm::vec2 cursor;
-  GLFWwindow* window;
-  glm::uvec2 windown_size;
-  glm::uvec2 viewport_size;
-  glm::uvec2 viewport_offset;
+  Cursor cursor;
+  Window window;
+  Viewport viewport;
   std::optional<Camera> camera;
   std::optional<Shaders> shaders;
   std::optional<Fonts> fonts;
@@ -227,11 +227,11 @@ int game_init(Game& game, GLFWwindow* window)
   game.paused = false;
   game.vsync = true;
   game.hover = false;
-  game.cursor = glm::vec2(0.f);
-  game.window = window;
-  game.windown_size = glm::uvec2(kWidth, kHeight);
-  game.viewport_size = glm::uvec2(kWidth, kHeight);
-  game.viewport_offset = glm::uvec2(0);
+  game.cursor = Cursor();
+  game.window.glfw = window;
+  game.window.size = glm::uvec2(kWidth, kHeight);
+  game.viewport.size = glm::uvec2(kWidth, kHeight);
+  game.viewport.offset = glm::uvec2(0);
   game.camera = Camera::create(kAspectRatio);
   game.shaders = load_shaders();
   game.fonts = load_fonts();
@@ -441,8 +441,8 @@ void game_update(Game& game, float dt, float time)
   // Cursor Picking system
   {
     game.hover = false;
-    const auto pixel_size = glm::vec2(1.f / game.viewport_size.x, 1.f / game.viewport_size.y);
-    const auto cursor_pos = normalized_cursor_pos(game.cursor, game.viewport_size, game.viewport_offset);
+    const auto pixel_size = glm::vec2(1.f / game.viewport.size.x, 1.f / game.viewport.size.y);
+    const auto cursor_pos = normalized_cursor_pos(game.cursor.pos, game.viewport.size, game.viewport.offset);
     const auto cursor_aabb = Aabb{.min = cursor_pos, .max = cursor_pos + pixel_size};
     for (auto &spaceship : game.scene->objects.spaceship) {
       if (!spaceship.aabb) continue;
@@ -910,20 +910,20 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
   float y_off = y_rest / 2.f;
   glViewport(x_off, y_off, (width - x_rest), (height - y_rest));
 
-  game->windown_size.y = height;
-  game->windown_size.x = width;
-  game->viewport_size.x = (width - x_rest);
-  game->viewport_size.y = (height - y_rest);
-  game->viewport_offset.x = x_off;
-  game->viewport_offset.y = y_off;
+  game->window.size.y = height;
+  game->window.size.x = width;
+  game->viewport.size.x = (width - x_rest);
+  game->viewport.size.y = (height - y_rest);
+  game->viewport.offset.x = x_off;
+  game->viewport.offset.y = y_off;
 }
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
   auto game = static_cast<Game*>(glfwGetWindowUserPointer(window));
   if (!game) return;
-  game->cursor.x = (float)xpos;
-  game->cursor.y = (float)ypos;
+  game->cursor.pos.x = (float)xpos;
+  game->cursor.pos.y = (float)ypos;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
