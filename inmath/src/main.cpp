@@ -69,30 +69,6 @@ using KeyStateMap = std::unordered_map<Key, bool>;
 void init_key_handlers(KeyHandlerMap& key_handlers);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Cursor
-
-/// Convert cursor position from window space to normalized space (-1,+1)
-///
-///  viewport_offset.x
-/// |-------|
-/// +------------------------+ - viewport_offset.y
-/// | (0,0) +-------+ (W, 0) | -
-/// |       | view  |        |
-/// |       | port  |        |
-/// |       | space |        |
-/// | (0,H) +-------+ (W, H) |
-/// +------------------------+
-///       window space
-glm::vec2 normalized_cursor_pos(glm::vec2 cursor, glm::uvec2 viewport_size, glm::uvec2 viewport_offset)
-{
-  float normal_max_width = 2.f * kAspectRatio;
-  float normal_max_height = 2.f;
-  float x = (((cursor.x - viewport_offset.x) * normal_max_width) / viewport_size.x) - kAspectRatio;
-  float y = (((cursor.y - viewport_offset.y) * -normal_max_height) / viewport_size.y) + 1.f;
-  return {x, y};
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Game
 
 /// Game Object represents a single Entity with Components
@@ -445,7 +421,7 @@ void game_update(Game& game, float dt, float time)
   {
     game.hover = false;
     const auto pixel_size = glm::vec2(1.f / game.viewport.size.x, 1.f / game.viewport.size.y);
-    const auto cursor_pos = normalized_cursor_pos(game.cursor.pos, game.viewport.size, game.viewport.offset);
+    const auto cursor_pos = game.cursor.normalized(game.window, game.viewport);
     const auto cursor_aabb = Aabb{.min = cursor_pos, .max = cursor_pos + pixel_size};
     for (auto &spaceship : game.scene->objects.spaceship) {
       if (!spaceship.aabb) continue;
