@@ -2,29 +2,27 @@
 #include <optional>
 #include <unordered_map>
 
-#include "./al_audio.hpp"
+#include "./al_buffer.hpp"
+#include "./al_source.hpp"
+#include "./res_manager.hpp"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Audios
 
 /// Holds the audio buffers used by the game
-struct Audios {
-  std::unordered_map<std::string, ALBufferRef> map;
+class Audios : public ResManager<std::string, ALBufferRef> {
+  using Base = ResManager<std::string, ALBufferRef>;
 
  public:
-  /// Get an Audio buffer from cache, or load it if not cached yet
-  template<typename ...Args>
-  auto get_or_load(const std::string& audiopath, Args&&... args) -> std::optional<ALBufferRef> {
-    auto it = map.find(audiopath);
-    if (it != map.end()) {
-      return it->second;
-    } else {
-      auto audio = load_wav_audio(audiopath, std::forward<Args>(args)...);
-      if (!audio) return std::nullopt;
-      auto audioptr = std::make_shared<ALBuffer>(std::move(*audio));
-      map.emplace(audiopath, audioptr);
-      return audioptr;
-    }
+  Audios() = default;
+  virtual ~Audios() = default;
+
+  /// Load an Audio buffer into cache
+  template <typename... Args>
+  auto load(const std::string &audiopath, Args &&...args) -> std::optional<ALBufferRef> {
+    auto audio = load_wav_audio(audiopath, std::forward<Args>(args)...);
+    if (!audio) return std::nullopt;
+    return Base::load(audiopath, std::make_shared<ALBuffer>(std::move(*audio)));
   }
 };
 

@@ -69,7 +69,8 @@ target_sources(inmath PRIVATE
     src/text.cpp
     src/sprite.cpp
     src/gl_font.cpp
-    src/al_audio.cpp
+    src/al_buffer.cpp
+    src/al_source.cpp
     src/collision.cpp
     src/gl_shader.cpp
     src/gl_object.cpp

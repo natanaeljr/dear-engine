@@ -175,7 +175,7 @@ GameObject create_explosion(Game& game)
     .velocity = glm::vec2(0.0f),
     .acceleration = glm::vec2(0.0f),
   };
-  obj.texture = ASSERT_RET(game.textures->get_or_load("Explosion.png", GL_LINEAR));
+  obj.texture = ASSERT_GET(game.textures->get("Explosion.png"));
   auto [vertices, indices] = gen_sprite_quads(6);
   obj.glo = std::make_shared<GLObject>(create_textured_globject(game.shaders->generic_shader, vertices, indices));
   obj.sprite_animation = SpriteAnimation{
@@ -193,7 +193,7 @@ GameObject create_explosion(Game& game)
     .max_cycles = 1,
   };
   obj.sound = std::make_shared<ALSource>(create_audio_source(1.0f));
-  obj.sound->get()->bind_buffer(*ASSERT_RET(game.audios->get_or_load("explosionCrunch_000.wav")));
+  obj.sound->get()->bind_buffer(*ASSERT_GET(game.audios->get("explosionCrunch_000.wav")));
   return obj;
 }
 
@@ -212,12 +212,12 @@ GameObject create_player_projectile(Game& game)
     .velocity = glm::vec2(0.0f, 2.6f),
     .acceleration = glm::vec2(0.0f),
   };
-  obj.texture = ASSERT_RET(game.textures->get_or_load("Projectile01.png", GL_LINEAR));
+  obj.texture = ASSERT_GET(game.textures->get("Projectile01.png"));
   obj.glo = std::make_shared<GLObject>(create_textured_quad_globject(game.shaders->generic_shader));
   obj.aabb = Aabb{ .min= {-0.11f, -0.38f}, .max = {+0.07f, +0.30f} };
   obj.offscreen_destroy = OffScreenDestroy{};
   obj.sound = std::make_shared<ALSource>(create_audio_source(0.8f));
-  obj.sound->get()->bind_buffer(*ASSERT_RET(game.audios->get_or_load("laser-14729.wav")));
+  obj.sound->get()->bind_buffer(*ASSERT_GET(game.audios->get("laser-14729.wav")));
   return obj;
 }
 
@@ -242,8 +242,11 @@ int game_init(Game& game, GLFWwindow* window)
   game.key_states = KeyStateMap(GLFW_KEY_LAST);     // reserve all keys to avoid rehash
   game.screen_aabb = Aabb{ .min = {-kAspectRatio, -1.0f}, .max = {kAspectRatio, +1.0f} };
 
-  ASSERT(game.audios->get_or_load("laser-14729.wav"));
-  ASSERT(game.audios->get_or_load("explosionCrunch_000.wav"));
+  ASSERT(game.audios->load("laser-14729.wav"));
+  ASSERT(game.audios->load("explosionCrunch_000.wav"));
+
+  ASSERT(game.textures->load("Explosion.png", GL_LINEAR));
+  ASSERT(game.textures->load("Projectile01.png", GL_LINEAR));
 
   { // Background
     game.scene->objects.background.push_back({});
@@ -260,7 +263,7 @@ int game_init(Game& game, GLFWwindow* window)
       .acceleration = glm::vec2(0.0f),
     };
     DEBUG("Loading Background Texture");
-    background.texture = ASSERT_RET(game.textures->get_or_load("background01.png", GL_NEAREST));
+    background.texture = ASSERT_GET(game.textures->load("background01.png", GL_NEAREST));
     DEBUG("Loading Background Quad");
     background.glo = std::make_shared<GLObject>(create_textured_quad_globject(game.shaders->generic_shader));
     background.update = UpdateFn{ [] (struct GameObject& obj, float dt, float time) {
@@ -286,7 +289,7 @@ int game_init(Game& game, GLFWwindow* window)
       .acceleration = glm::vec2(0.0f),
     };
     DEBUG("Loading Player Spaceship Texture");
-    player.texture = ASSERT_RET(game.textures->get_or_load("Lightning.png", GL_NEAREST));
+    player.texture = ASSERT_GET(game.textures->load("Lightning.png", GL_NEAREST));
     DEBUG("Loading Player Spaceship Vertices");
     auto [vertices, indices] = gen_sprite_quads(4);
     player.glo = std::make_shared<GLObject>(create_textured_globject(game.shaders->generic_shader, vertices, indices));
@@ -322,7 +325,7 @@ int game_init(Game& game, GLFWwindow* window)
       .acceleration = glm::vec2(0.0f),
     };
     DEBUG("Loading Enemy Spaceship Texture");
-    enemy.texture = ASSERT_RET(game.textures->get_or_load("Saboteur.png", GL_NEAREST));
+    enemy.texture = ASSERT_GET(game.textures->load("Saboteur.png", GL_NEAREST));
     DEBUG("Loading Enemy Spaceship Vertices");
     auto [vertices, indices] = gen_sprite_quads(4);
     enemy.glo = std::make_shared<GLObject>(create_textured_globject(game.shaders->generic_shader, vertices, indices));

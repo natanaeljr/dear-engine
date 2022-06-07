@@ -1,11 +1,9 @@
-#include "./al_audio.hpp"
+#include "./al_buffer.hpp"
 
 #include <memory>
 #include <string>
 #include <optional>
 
-#include <glbinding/gl33core/gl.h>
-using namespace gl;
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <drlibs/dr_wav.h>
@@ -40,18 +38,5 @@ auto load_wav_audio(const std::string& audiopath) -> std::optional<ALBuffer>
   } 
   drwav_free(data, NULL);
   return ALBuffer{ abo };
-}
-
-/// Create a new Audio Source object
-ALSource create_audio_source(float gain)
-{
-  ALuint aso;
-  alGenSources(1, &aso);
-  alSourcef(aso, AL_PITCH, 1.0f);
-  alSourcef(aso, AL_GAIN, gain);
-  alSource3f(aso, AL_POSITION, 0.0f, 0.0f, 0.0f);
-  alSource3f(aso, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-  alSourcei(aso, AL_LOOPING, AL_FALSE);
-  return ALSource{ aso };
 }
 
