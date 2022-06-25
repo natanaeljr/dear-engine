@@ -76,3 +76,7 @@ struct DelayErasing {
   bool sound = true;
 };
 
+/// Health component
+struct Health {
+  int value;
+};

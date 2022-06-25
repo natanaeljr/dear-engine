@@ -87,6 +87,7 @@ struct GameObject {
   std::optional<ScreenBound> screen_bound;
   std::optional<ALSourceRef> sound;
   std::optional<DelayErasing> delay_erasing;
+  std::optional<Health> health;
 };
 
 /// Lists of all Game Objects in a Scene, divised in layers, in order of render
@@ -239,7 +240,7 @@ int game_init(Game& game, GLFWwindow* window)
       .acceleration = glm::vec2(0.0f),
     };
     DEBUG("Loading Background Texture");
-    background.texture = ASSERT_GET(game.textures->load("background01.png", GL_NEAREST));
+    background.texture = ASSERT_GET(game.textures->load("background03.png", GL_NEAREST));
     DEBUG("Loading Background Quad");
     background.glo = std::make_shared<GLObject>(create_textured_quad_globject(game.shaders->generic_shader));
     background.update = UpdateFn{ [] (struct GameObject& obj, float dt, float time) {
@@ -265,7 +266,7 @@ int game_init(Game& game, GLFWwindow* window)
       .acceleration = glm::vec2(0.0f),
     };
     DEBUG("Loading Player Spaceship Texture");
-    player.texture = ASSERT_GET(game.textures->load("Lightning.png", GL_NEAREST));
+    player.texture = ASSERT_GET(game.textures->load("Paranoid.png", GL_NEAREST));
     DEBUG("Loading Player Spaceship Vertices");
     auto [vertices, indices] = gen_sprite_quads(4);
     player.glo = std::make_shared<GLObject>(create_textured_globject(game.shaders->generic_shader, vertices, indices));
@@ -301,7 +302,7 @@ int game_init(Game& game, GLFWwindow* window)
       .acceleration = glm::vec2(0.0f),
     };
     DEBUG("Loading Enemy Spaceship Texture");
-    enemy.texture = ASSERT_GET(game.textures->load("Saboteur.png", GL_NEAREST));
+    enemy.texture = ASSERT_GET(game.textures->load("UFO.png", GL_NEAREST));
     DEBUG("Loading Enemy Spaceship Vertices");
     auto [vertices, indices] = gen_sprite_quads(4);
     enemy.glo = std::make_shared<GLObject>(create_textured_globject(game.shaders->generic_shader, vertices, indices));
@@ -322,6 +323,7 @@ int game_init(Game& game, GLFWwindow* window)
       obj.transform.position.x = std::sin(time) * 0.4f;
     }};
     enemy.aabb = Aabb{ .min = {-0.55f, -0.50f}, .max = {0.55f, 0.50f} };
+    enemy.health = Health{ .value = 10 };
   };
 
   { // FPS
@@ -496,6 +498,15 @@ void game_update(Game& game, float dt, float time)
             };
             projectile.prev_transform = projectile.transform;
           }
+          spaceship->health->value--;
+          if (spaceship->health->value <= 0) {
+            spaceship->delay_erasing = DelayErasing{};
+            spaceship->transform = Transform{
+              .position = glm::vec2(1000.0f),
+            };
+            spaceship->prev_transform = projectile.transform;
+            game_pause(game);
+          }
         }
       }
     }
@@ -667,8 +678,19 @@ void game_render(Game& game, float frame_time, float alpha)
   }
 
   // Render Game Pause
-  if (game.paused)
-    immediate_draw_text(generic_shader, "PAUSED", std::nullopt, *game.fonts->russo_one, 50.f, kWhite, kBlack, 1.f);
+  if (game.paused) {
+    immediate_draw_text(generic_shader, "Qual das alternativas e uma Funcao Injetora?", std::nullopt, *game.fonts->russo_one, 50.f, kWhite, kBlack, 1.f);
+
+    GameObject obj;
+    obj.transform = Transform{
+      .position = glm::vec2(0.f, -0.45f),
+        .scale = glm::vec2(1.f, 0.3f),
+        .rotation = 0.0f,
+    };
+    obj.texture = ASSERT_GET(game.textures->load("funcoes.png", GL_LINEAR));
+    obj.glo = std::make_shared<GLObject>(create_textured_quad_globject(game.shaders->generic_shader));
+    draw_textured_object(generic_shader, *obj.texture->get(), *obj.glo, obj.transform.matrix());
+  }
 
   // Render Cursor
   //auto cursor_pos = normalized_cursor_pos(game.cursor, game.winsize);
@@ -681,12 +703,12 @@ void game_render(Game& game, float frame_time, float alpha)
 
 int game_loop(GLFWwindow* window)
 {
-  while (!glfwWindowShouldClose(window)) {
-    glfwPollEvents();
-    begin_render();
-    glfwSwapBuffers(window);
-  }
-  return 0;
+  //while (!glfwWindowShouldClose(window)) {
+    //glfwPollEvents();
+    //begin_render();
+    //glfwSwapBuffers(window);
+  //}
+  //return 0;
 
   Game game;
   int ret = game_init(game, window);
