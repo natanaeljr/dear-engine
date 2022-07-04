@@ -4,8 +4,8 @@
 #include <optional>
 #include <unordered_map>
 
-#include "./gl_texture.hpp"
-#include "./res_manager.hpp"
+#include "core/gl_texture.hpp"
+#include "core/res_manager.hpp"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Textures

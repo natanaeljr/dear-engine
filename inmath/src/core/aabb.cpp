@@ -1,4 +1,4 @@
-#include "./collision.hpp"
+#include "aabb.hpp"
 
 /// Check for collision between two AABBs
 bool collision(const Aabb& a, const Aabb& b)

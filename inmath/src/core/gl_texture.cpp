@@ -9,9 +9,9 @@ using namespace gl;
 
 #include <stb/stb_image.h>
 
-#include "./log.hpp"
-#include "./file.hpp"
-#include "./unique_num.hpp"
+#include "log.hpp"
+#include "file.hpp"
+#include "unique_num.hpp"
 
 using namespace std::string_literals;
 

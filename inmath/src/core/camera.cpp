@@ -4,7 +4,7 @@
 using namespace gl;
 #include <glm/gtc/type_ptr.hpp>
 
-#include "./gl_shader.hpp"
+#include "gl_shader.hpp"
 
 /// Upload camera matrix to shader
 void set_camera(const GLShader& shader, const Camera& camera)

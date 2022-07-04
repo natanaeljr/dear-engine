@@ -5,8 +5,8 @@
 #include <glbinding/gl33core/types.h>
 using namespace gl;
 
-#include "./gl_font.hpp"
-#include "./gl_object.hpp"
+#include "gl_font.hpp"
+#include "gl_object.hpp"
 
 /// Generate quad vertices for a text with the given font.
 auto gen_text_quads(const GLFont& font, std::string_view text) -> std::tuple<std::vector<TextureVertex>, std::vector<GLushort>, float>

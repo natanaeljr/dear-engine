@@ -1,6 +1,19 @@
-#include "./sprite.hpp"
+#include "sprite.hpp"
 
-#include "./gl_object.hpp"
+#include "gl_object.hpp"
+
+/// Transition frames
+void SpriteAnimation::update_frame(float dt) {
+  last_transit_dt += dt;
+  SpriteFrame& curr_frame = frames[curr_frame_idx];
+  if (last_transit_dt >= curr_frame.duration) {
+    last_transit_dt -= curr_frame.duration;
+    if (++curr_frame_idx == frames.size()) {
+      curr_frame_idx = 0;
+      curr_cycle_count++;
+    }
+  }
+}
 
 /// Generate quad vertices for a spritesheet texture with frames laid out linearly.
 /// count=3:        .texcoord (U,V)

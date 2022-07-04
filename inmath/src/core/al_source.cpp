@@ -1,4 +1,4 @@
-#include "./al_source.hpp"
+#include "al_source.hpp"
 
 #include <AL/al.h>
 #include <AL/alc.h>

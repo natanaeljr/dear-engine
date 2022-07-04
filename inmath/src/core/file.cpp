@@ -1,10 +1,10 @@
-#include "./file.hpp"
+#include "file.hpp"
 
 #include <fstream>
 #include <optional>
 #include <string>
 
-#include "./log.hpp"
+#include "log.hpp"
 
 /// Read file contents to a string
 auto read_file_to_string(const std::string& filename) -> std::optional<std::string>

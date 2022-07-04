@@ -1,4 +1,4 @@
-#include "./gl_shader.hpp"
+#include "gl_shader.hpp"
 
 #include <array>
 #include <string>
@@ -7,8 +7,8 @@
 #include <glbinding/gl33core/gl.h>
 using namespace gl;
 
-#include "./log.hpp"
-#include "./unique_num.hpp"
+#include "log.hpp"
+#include "unique_num.hpp"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Shader

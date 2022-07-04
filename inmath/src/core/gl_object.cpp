@@ -1,9 +1,9 @@
-#include "./gl_object.hpp"
+#include "gl_object.hpp"
 
 #include <glbinding/gl33core/gl.h>
 using namespace gl;
 
-#include "./gl_shader.hpp"
+#include "gl_shader.hpp"
 
 /// Upload new Colored Indexed-Vertex object to GPU memory
 GLObject create_colored_globject(const GLShader& shader, gsl::span<const ColorVertex> vertices, gsl::span<const GLushort> indices, GLenum usage)

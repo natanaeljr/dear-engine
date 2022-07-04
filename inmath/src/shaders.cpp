@@ -1,6 +1,6 @@
 #include "./shaders.hpp"
 
-#include "./log.hpp"
+#include "core/log.hpp"
 
 /// Loads all shaders used by the game
 Shaders load_shaders()

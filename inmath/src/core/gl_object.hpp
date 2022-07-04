@@ -10,8 +10,8 @@ using namespace gl;
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 
-#include "./gl_shader.hpp"
-#include "./unique_num.hpp"
+#include "gl_shader.hpp"
+#include "unique_num.hpp"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// GLObjects

@@ -6,9 +6,9 @@
 #include <stb/stb_rect_pack.h>
 #include <stb/stb_truetype.h>
 
-#include "./log.hpp"
-#include "./file.hpp"
-#include "./gl_texture.hpp"
+#include "log.hpp"
+#include "file.hpp"
+#include "gl_texture.hpp"
 
 using namespace std::string_literals;
 

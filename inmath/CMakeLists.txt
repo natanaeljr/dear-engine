@@ -26,7 +26,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(OpenGL_GL_PREFERENCE "GLVND")
 
 # Default compilation settings
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -ggdb -pg -fsanitize=undefined -Werror -Wall")
@@ -64,19 +64,19 @@ add_executable(inmath)
 target_sources(inmath PRIVATE
     src/main.cpp
     src/shaders.cpp
-    src/renderer.cpp
-    src/camera.cpp
+    src/core/renderer.cpp
+    src/core/camera.cpp
     src/fonts.cpp
-    src/file.cpp
-    src/text.cpp
-    src/sprite.cpp
-    src/gl_font.cpp
-    src/al_buffer.cpp
-    src/al_source.cpp
-    src/collision.cpp
-    src/gl_shader.cpp
-    src/gl_object.cpp
-    src/gl_texture.cpp
+    src/core/file.cpp
+    src/core/text.cpp
+    src/core/sprite.cpp
+    src/core/gl_font.cpp
+    src/core/al_buffer.cpp
+    src/core/al_source.cpp
+    src/core/aabb.cpp
+    src/core/gl_shader.cpp
+    src/core/gl_object.cpp
+    src/core/gl_texture.cpp
 )
 target_link_libraries(inmath PRIVATE
     glm::glm

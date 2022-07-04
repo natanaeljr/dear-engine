@@ -1,13 +1,13 @@
-#include "./renderer.hpp"
+#include "renderer.hpp"
 
 #include <glbinding/gl33core/gl.h>
 using namespace gl;
 #include <glm/gtc/type_ptr.hpp>
 
-#include "./sprite.hpp"
-#include "./gl_object.hpp"
-#include "./gl_shader.hpp"
-#include "./gl_texture.hpp"
+#include "sprite.hpp"
+#include "gl_object.hpp"
+#include "gl_shader.hpp"
+#include "gl_texture.hpp"
 
 /// Prepare to render
 void begin_render()

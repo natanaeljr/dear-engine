@@ -1,4 +1,4 @@
-#include "./al_buffer.hpp"
+#include "al_buffer.hpp"
 
 #include <memory>
 #include <string>
@@ -8,9 +8,9 @@
 #include <AL/alc.h>
 #include <drlibs/dr_wav.h>
 
-#include "./log.hpp"
-#include "./file.hpp"
-#include "./unique_num.hpp"
+#include "log.hpp"
+#include "file.hpp"
+#include "unique_num.hpp"
 
 using namespace std::string_literals;
 

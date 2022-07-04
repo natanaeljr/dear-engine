@@ -2,9 +2,9 @@
 #include <optional>
 #include <unordered_map>
 
-#include "./al_buffer.hpp"
-#include "./al_source.hpp"
-#include "./res_manager.hpp"
+#include "core/al_buffer.hpp"
+#include "core/al_source.hpp"
+#include "core/res_manager.hpp"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Audios

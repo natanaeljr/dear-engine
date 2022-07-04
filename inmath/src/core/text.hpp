@@ -5,9 +5,9 @@
 #include <glbinding/gl33core/types.h>
 using namespace gl;
 
-#include "./gl_font.hpp"
-#include "./gl_object.hpp"
-#include "./gl_shader.hpp"
+#include "gl_font.hpp"
+#include "gl_object.hpp"
+#include "gl_shader.hpp"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Text
