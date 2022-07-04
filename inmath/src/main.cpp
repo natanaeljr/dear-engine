@@ -27,6 +27,9 @@ using namespace gl;
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/compatibility.hpp>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
 
 #include "./log.hpp"
 #include "./file.hpp"
@@ -624,6 +627,29 @@ void render_aabbs(Game& game, GLShader& generic_shader)
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
+/// Render ImGui windows
+void imgui_render(Game& game)
+{
+  ImGui_ImplOpenGL3_NewFrame();
+  ImGui_ImplGlfw_NewFrame();
+  ImGui::NewFrame();
+
+  bool show_demo_window = true;
+  ImGui::ShowDemoWindow(&show_demo_window);
+
+  ImGui::Render();
+
+  ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+  if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+    GLFWwindow* backup_current_context = glfwGetCurrentContext();
+    ImGui::UpdatePlatformWindows();
+    ImGui::RenderPlatformWindowsDefault();
+    glfwMakeContextCurrent(backup_current_context);
+  }
+}
+
+/// Game render everything
 void game_render(Game& game, float frame_time, float alpha)
 {
   begin_render();
@@ -699,6 +725,9 @@ void game_render(Game& game, float frame_time, float alpha)
   //transform.scale = glm::vec2(0.03f);
   //transform.position = glm::vec2(cursor_pos.x, cursor_pos.y);
   //draw_colored_object(generic_shader, cursor_obj, transform.matrix());
+
+  // Render ImGui
+  imgui_render(game);
 }
 
 int game_loop(GLFWwindow* window)
@@ -1030,6 +1059,17 @@ int main(int argc, char *argv[])
   glbinding::initialize(glfwGetProcAddress);
   glbinding::aux::enableGetErrorCallback();
 
+  // Init ImGui ================================================================
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO& io = ImGui::GetIO();
+  io.Fonts->AddFontFromFileTTF(INMATH_ASSETS_PATH "/fonts/Ubuntu-Regular.ttf", 14.0f);
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+  //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+  ImGui_ImplGlfw_InitForOpenGL(window, true);
+  ImGui_ImplOpenGL3_Init("#version 330");
+
   // Init AL ===================================================================
   INFO("Initializing OpenAL..");
   ALCcontext* openal_ctx = nullptr;
@@ -1046,6 +1086,9 @@ int main(int argc, char *argv[])
   alcMakeContextCurrent(NULL);
   alcDestroyContext(openal_ctx);
   alcCloseDevice(alc_device);
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
   glfwTerminate();
 
   INFO("Exit");
