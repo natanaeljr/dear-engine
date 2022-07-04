@@ -160,3 +160,27 @@ ExternalProject_Add(openal_external
         -DBUILD_SHARED_LIBS=OFF
         -DALSOFT_EXAMPLES=OFF)
 
+#########################################################################################
+# ImGui
+#########################################################################################
+# Dear ImGui is a bloat-free graphical user interface library for C++.
+# It outputs optimized vertex buffers that you can render anytime in your 3D-pipeline
+# enabled application. It is fast, portable, renderer agnostic and self-contained.
+# Dear ImGui is licensed under the MIT License.
+message(STATUS "Adding external library: ImGui")
+ExternalProject_Add(imgui_external
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/imgui
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/imgui
+    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
+        -DBUILD_SHARED_LIBS=OFF
+        -DIMGUI_PLATF_BACKEND=glfw
+        -DIMGUI_RENDER_BACKEND=opengl
+        -DIMGUI_OPENGL_LOADER=glbinding3
+    DEPENDS
+        glfw_external
+        glbinding_external)

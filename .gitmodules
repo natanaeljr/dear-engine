@@ -22,3 +22,7 @@
 [submodule "external/openal"]
 	path = external/openal
 	url = https://github.com/kcat/openal-soft.git
+[submodule "external/imgui"]
+	path = external/imgui
+	url = https://github.com/natanaeljr/imgui-cmake-package.git
+  branch = docking

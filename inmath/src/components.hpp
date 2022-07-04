@@ -13,7 +13,7 @@
 
 /// Tag component
 struct Tag {
-  char label[20] = "?";
+  char label[32]{"?"};
 };
 
 /// Transform component
