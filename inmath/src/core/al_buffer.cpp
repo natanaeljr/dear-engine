@@ -1,6 +1,7 @@
 #include "al_buffer.hpp"
 
 #include <memory>
+#include <spdlog/spdlog.h>
 #include <string>
 #include <optional>
 
@@ -25,7 +26,8 @@ auto load_wav_audio(const std::string& audiopath) -> std::optional<ALBuffer>
   drwav_uint64 pcm_frame_count;
   drwav_int16* data = drwav_open_memory_and_read_pcm_frames_s16(audio->data(), audio->size(), &channels, &samples, &pcm_frame_count, nullptr);
   if (!data) { ERROR("Failed to load audio path ({})", filepath); return std::nullopt; }
-  size_t size = (pcm_frame_count * channels * sizeof(float));
+  size_t size = (pcm_frame_count * channels * sizeof(int16_t));
+  TRACE("AudioInfo {}: channels {}, samples {}, pcm_frame_count {}, size {}", audiopath, channels, samples, pcm_frame_count, size);
   int err;
   ALuint abo;
   alGenBuffers(1, &abo);
