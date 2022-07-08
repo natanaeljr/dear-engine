@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(inmath LANGUAGES CXX)
+project(dearengine LANGUAGES CXX)
 
 # This project can be built as a standalone project on a system with the required
 # libraries already installed, or it can be part of the Super-Project which builds all
@@ -62,8 +62,8 @@ find_package(yaml-cpp 0.7.0 EXACT REQUIRED)
 # Project
 #########################################################################################
 # Main target binary
-add_executable(inmath)
-target_sources(inmath PRIVATE
+add_executable(dearengine)
+target_sources(dearengine PRIVATE
     src/main.cpp
     src/shaders.cpp
     src/core/renderer.cpp
@@ -80,7 +80,7 @@ target_sources(inmath PRIVATE
     src/core/gl_object.cpp
     src/core/gl_texture.cpp
 )
-target_link_libraries(inmath PRIVATE
+target_link_libraries(dearengine PRIVATE
     glm::glm
     spdlog::spdlog
     stb::stb_image
@@ -98,11 +98,11 @@ target_link_libraries(inmath PRIVATE
     OpenGL::GL
     OpenAL::OpenAL
 )
-target_compile_definitions(inmath PRIVATE
+target_compile_definitions(dearengine PRIVATE
     AL_LIBTYPE_STATIC
     GLFW_INCLUDE_NONE
     SPDLOG_ACTIVE_LEVEL=$<IF:$<STREQUAL:${CMAKE_BUILD_TYPE},Debug>,SPDLOG_LEVEL_TRACE,SPDLOG_LEVEL_INFO>
-    INMATH_ASSETS_PATH=$<IF:$<STREQUAL:${CMAKE_BUILD_TYPE},Debug>,"${CMAKE_CURRENT_SOURCE_DIR}/assets","TODO">
+    ENGINE_ASSETS_PATH=$<IF:$<STREQUAL:${CMAKE_BUILD_TYPE},Debug>,"${CMAKE_CURRENT_SOURCE_DIR}/assets","TODO">
 )
 
-install(TARGETS inmath)
+install(TARGETS dearengine)

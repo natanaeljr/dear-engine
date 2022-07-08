@@ -1064,7 +1064,7 @@ int main(int argc, char *argv[])
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
   ImGuiIO& io = ImGui::GetIO();
-  io.Fonts->AddFontFromFileTTF(INMATH_ASSETS_PATH "/fonts/Ubuntu-Regular.ttf", 14.0f);
+  io.Fonts->AddFontFromFileTTF(ENGINE_ASSETS_PATH "/fonts/Ubuntu-Regular.ttf", 14.0f);
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
   io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
   //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;

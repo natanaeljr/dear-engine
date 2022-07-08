@@ -19,7 +19,7 @@ using namespace std::string_literals;
 auto load_wav_audio(const std::string& audiopath) -> std::optional<ALBuffer>
 {
   DEBUG("Loading audio {}", audiopath);
-  const std::string filepath = INMATH_ASSETS_PATH + "/audio/"s + audiopath;
+  const std::string filepath = ENGINE_ASSETS_PATH + "/audio/"s + audiopath;
   auto audio = read_file_to_string(filepath);
   if (!audio) { ERROR("Failed to read audio '{}'", audiopath); return std::nullopt; }
   unsigned int channels, samples;

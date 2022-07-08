@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(inmath)
+project(dearengine)
 
 # This is a Super-Project which builds Sub-Projects and manage library dependencies.
 # Libraries are built first as external projects and installed at the build directory.
@@ -28,11 +28,11 @@ add_subdirectory(external)
 #########################################################################################
 # Project
 #########################################################################################
-message(STATUS "Adding sub-project: inmath")
-# inmath contains the source code and build for last after all dependency libs.
-ExternalProject_Add(inmath
-    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/inmath
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/inmath
+message(STATUS "Adding sub-project: dear-engine")
+# dear-engine contains the source code and build for last after all dependency libs.
+ExternalProject_Add(dearengine
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/dear-engine
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dear-engine
     BUILD_ALWAYS 1
     CMAKE_ARGS
         -DCMAKE_GENERATOR=${CMAKE_GENERATOR}

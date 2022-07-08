@@ -16,7 +16,7 @@ using namespace std::string_literals;
 auto load_font(const std::string& fontname) -> std::optional<GLFont>
 {
   DEBUG("Loading Font {}", fontname);
-  const std::string filepath = INMATH_ASSETS_PATH + "/fonts/"s + fontname;
+  const std::string filepath = ENGINE_ASSETS_PATH + "/fonts/"s + fontname;
   auto font = read_file_to_string(filepath);
   if (!font) { ERROR("Failed to load font '{}'", fontname); return std::nullopt; }
   constexpr int kStride = 0;

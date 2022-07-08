@@ -18,7 +18,7 @@ using namespace std::string_literals;
 /// Read file and upload RGB/RBGA texture to GPU memory
 auto load_rgba_texture(const std::string& inpath, GLenum min_filter, GLenum mag_filter) -> std::optional<GLTexture>
 {
-  const std::string filepath = INMATH_ASSETS_PATH + "/"s + inpath;
+  const std::string filepath = ENGINE_ASSETS_PATH + "/"s + inpath;
   auto file = read_file_to_string(filepath);
   if (!file) { ERROR("Failed to read texture path ({})", filepath); return std::nullopt; }
   int width, height, channels;
