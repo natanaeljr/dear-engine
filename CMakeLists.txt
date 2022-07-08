@@ -49,4 +49,5 @@ ExternalProject_Add(inmath
         gsl_external
         drlibs_external
         openal_external
-        imgui_external)
+        imgui_external
+        yamlcpp_external)

@@ -184,3 +184,22 @@ ExternalProject_Add(imgui_external
     DEPENDS
         glfw_external
         glbinding_external)
+
+#########################################################################################
+# yaml-cpp
+#########################################################################################
+# yaml-cpp is a YAML parser and emitter in C++ matching the YAML 1.2 spec.
+# yaml-cpp is licensed under the MIT License.
+message(STATUS "Adding external library: yaml-cpp")
+ExternalProject_Add(yamlcpp_external
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/yaml-cpp
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/yaml-cpp
+    INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
+        -DBUILD_SHARED_LIBS=OFF
+        -DYAML_BUILD_SHARED_LIBS=OFF
+        -DYAML_CPP_INSTALL=ON)

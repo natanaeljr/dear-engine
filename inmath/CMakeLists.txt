@@ -26,7 +26,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(OpenGL_GL_PREFERENCE "GLVND")
 
 # Default compilation settings
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -ggdb -pg -fsanitize=undefined -Werror -Wall")
@@ -55,6 +55,8 @@ find_package(Microsoft.GSL 4.0.0 EXACT REQUIRED)
 find_package(drlibs 0.10.0 EXACT REQUIRED)
 # ImGui for graphical user interface
 find_package(imgui 1.88 EXACT REQUIRED)
+# yaml-cpp for YAML parser and emitter in C++
+find_package(yaml-cpp 0.7.0 EXACT REQUIRED)
 
 #########################################################################################
 # Project
@@ -84,6 +86,7 @@ target_link_libraries(inmath PRIVATE
     stb::stb_image
     stb::stb_truetype
     stb::stb_rect_pack
+    yaml-cpp
     drlibs::dr_wav
     Microsoft.GSL::GSL
     imgui::imgui

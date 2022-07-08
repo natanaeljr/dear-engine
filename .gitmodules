@@ -26,3 +26,6 @@
 	path = external/imgui
 	url = https://github.com/natanaeljr/imgui-cmake-package.git
   branch = docking
+[submodule "external/yaml-cpp"]
+	path = external/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
