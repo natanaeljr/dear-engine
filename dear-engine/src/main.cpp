@@ -202,6 +202,36 @@ GameObject create_player_projectile(Game& game)
   return obj;
 }
 
+void load_scene_file(Game& game)
+{
+  std::string data = *ASSERT_GET(read_file_to_string(ENGINE_ASSETS_PATH + "/scene.dat"s));
+  YAML::Node node = YAML::Load(data);
+  if (auto entities = node["entities"]; entities) {
+    for (auto entity : entities) {
+      if (auto tag = entity["tag"]; tag) {
+        game.scene->objects.text.push_back({});
+        auto& obj = game.scene->objects.text.back();
+        obj.transform = Transform{};
+        obj.transform.position = glm::vec2(-0.99f * kAspectRatio, -0.99f);
+        obj.transform.scale = glm::vec2(0.0024f);
+        obj.transform.scale.y = -obj.transform.scale.y;
+        auto [vertices, indices, _] = gen_text_quads(*game.fonts->russo_one, tag.as<std::string>());
+        obj.glo = std::make_shared<GLObject>(create_text_globject(game.shaders->generic_shader, vertices, indices, GL_STATIC_DRAW));
+        obj.text_fmt = TextFormat{
+          .font = game.fonts->russo_one,
+          .color = kWhiteDimmed,
+          .outline_color = kBlack,
+          .outline_thickness = 1.0f,
+        };
+      }
+    }
+  }
+}
+
+void save_scene_file(Game& game)
+{
+}
+
 int game_init(Game& game, GLFWwindow* window)
 {
   INFO("Initializing game");
@@ -222,6 +252,8 @@ int game_init(Game& game, GLFWwindow* window)
   game.key_handlers = KeyHandlerMap(GLFW_KEY_LAST); // reserve all keys to avoid rehash
   game.key_states = KeyStateMap(GLFW_KEY_LAST);     // reserve all keys to avoid rehash
   game.screen_aabb = Aabb{ .min = {-kAspectRatio, -1.0f}, .max = {kAspectRatio, +1.0f} };
+
+  load_scene_file(game);
 
   ASSERT(game.audios->load("laser-14729.wav"));
   ASSERT(game.audios->load("explosionCrunch_000.wav"));
@@ -731,6 +763,11 @@ void game_render(Game& game, float frame_time, float alpha)
   imgui_render(game);
 }
 
+void game_end(Game& game)
+{
+  save_scene_file(game);
+}
+
 int game_loop(GLFWwindow* window)
 {
   //while (!glfwWindowShouldClose(window)) {
@@ -783,6 +820,7 @@ int game_loop(GLFWwindow* window)
       usleep(next_loop_time_diff_us / 2.f);
   }
 
+  game_end(game);
   return 0;
 }
 
