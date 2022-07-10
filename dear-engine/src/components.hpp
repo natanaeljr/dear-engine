@@ -5,6 +5,7 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <yaml-cpp/node/node.h>
 
 #include "core/gl_font.hpp"
 
@@ -29,6 +30,34 @@ struct Transform {
     return translation_mat * rotation_mat * scale_mat;
   }
 };
+
+namespace YAML {
+template<>
+struct convert<Transform> {
+  static Node encode(const Transform& transform) {
+    Node node;
+    node["position"].push_back(transform.position.x);
+    node["position"].push_back(transform.position.y);
+    node["scale"].push_back(transform.scale.x);
+    node["scale"].push_back(transform.scale.y);
+    node["rotation"].push_back(transform.rotation);
+    return node;
+  }
+
+  static bool decode(const Node& node, Transform& transform) {
+    auto position = node["position"];
+    auto scale = node["scale"];
+    auto rotation = node["rotation"];
+    if (!position || !scale || !rotation) return false;
+    transform.position.x = position[0].as<float>();
+    transform.position.y = position[1].as<float>();
+    transform.scale.x = scale[0].as<float>();
+    transform.scale.y = scale[1].as<float>();
+    transform.rotation = rotation.as<float>();
+    return true;
+  }
+};
+}
 
 /// Motion component
 struct Motion {

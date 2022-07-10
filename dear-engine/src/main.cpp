@@ -202,6 +202,16 @@ GameObject create_player_projectile(Game& game)
   return obj;
 }
 
+auto load_entity(Game& game, YAML::Node node) -> std::optional<GameObject>
+{
+  GameObject obj{};
+
+  std::strncpy(obj.tag.label, node["tag"].as<std::string>().c_str(), sizeof(Tag::label));
+  obj.transform = node["transform"].as<Transform>();
+
+  return obj;
+}
+
 void load_scene_file(Game& game)
 {
   std::string data = *ASSERT_GET(read_file_to_string(ENGINE_ASSETS_PATH + "/scene.dat"s));
@@ -211,18 +221,27 @@ void load_scene_file(Game& game)
       if (auto tag = entity["tag"]; tag) {
         game.scene->objects.text.push_back({});
         auto& obj = game.scene->objects.text.back();
-        obj.transform = Transform{};
-        obj.transform.position = glm::vec2(-0.99f * kAspectRatio, -0.99f);
-        obj.transform.scale = glm::vec2(0.0024f);
-        obj.transform.scale.y = -obj.transform.scale.y;
-        auto [vertices, indices, _] = gen_text_quads(*game.fonts->russo_one, tag.as<std::string>());
-        obj.glo = std::make_shared<GLObject>(create_text_globject(game.shaders->generic_shader, vertices, indices, GL_STATIC_DRAW));
-        obj.text_fmt = TextFormat{
-          .font = game.fonts->russo_one,
-          .color = kWhiteDimmed,
-          .outline_color = kBlack,
-          .outline_thickness = 1.0f,
-        };
+        auto opt = ASSERT_GET(load_entity(game, entity));
+        if (opt) {
+          obj = *opt;
+          WARN("Loaded entity {}", obj.tag.label);
+        }
+        else {
+          WARN("Invalid entity found");
+        }
+
+        //obj.transform = Transform{};
+        //obj.transform.position = glm::vec2(-0.99f * kAspectRatio, -0.99f);
+        //obj.transform.scale = glm::vec2(0.0024f);
+        //obj.transform.scale.y = -obj.transform.scale.y;
+        //auto [vertices, indices, _] = gen_text_quads(*game.fonts->russo_one, tag.as<std::string>());
+        //obj.glo = std::make_shared<GLObject>(create_text_globject(game.shaders->generic_shader, vertices, indices, GL_STATIC_DRAW));
+        //obj.text_fmt = TextFormat{
+          //.font = game.fonts->russo_one,
+          //.color = kWhiteDimmed,
+          //.outline_color = kBlack,
+          //.outline_thickness = 1.0f,
+        //};
       }
     }
   }

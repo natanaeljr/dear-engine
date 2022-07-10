@@ -1,0 +1,6 @@
+entities:
+  - tag: Character
+    transform:
+      position: [0.22, 0.44]
+      scale: [1.0, 1.0]
+      rotation: 0.0
